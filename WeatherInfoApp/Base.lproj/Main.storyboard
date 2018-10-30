@@ -203,9 +203,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="itq-pB-Ch8">
-                                <rect key="frame" x="0.0" y="10" width="375" height="647"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="itq-pB-Ch8">
+                                <rect key="frame" x="0.0" y="90" width="375" height="577"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JvF-bZ-f1y">
                                     <size key="itemSize" width="50" height="50"/>
@@ -228,8 +227,27 @@
                                     <outlet property="delegate" destination="7Hc-cz-jl3" id="hQ7-XZ-USe"/>
                                 </connections>
                             </collectionView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Vgx-m4-voB">
+                                <rect key="frame" x="65" y="30" width="245" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="245" id="OEt-gB-FDo"/>
+                                    <constraint firstAttribute="height" constant="40" id="RLo-Vo-Poe"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Today"/>
+                                    <segment title="Five Day Forecast"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1E7-sw-HrY" firstAttribute="bottom" secondItem="itq-pB-Ch8" secondAttribute="bottom" id="8gY-Hb-8eb"/>
+                            <constraint firstItem="itq-pB-Ch8" firstAttribute="leading" secondItem="1E7-sw-HrY" secondAttribute="leading" id="FNZ-Bh-2vf"/>
+                            <constraint firstItem="Vgx-m4-voB" firstAttribute="top" secondItem="1E7-sw-HrY" secondAttribute="top" constant="10" id="Pa8-td-WxI"/>
+                            <constraint firstItem="Vgx-m4-voB" firstAttribute="centerX" secondItem="1E7-sw-HrY" secondAttribute="centerX" id="nPz-q1-6LM"/>
+                            <constraint firstItem="itq-pB-Ch8" firstAttribute="top" secondItem="Vgx-m4-voB" secondAttribute="bottom" constant="20" id="qJo-Hy-dfq"/>
+                            <constraint firstItem="itq-pB-Ch8" firstAttribute="trailing" secondItem="1E7-sw-HrY" secondAttribute="trailing" id="rNC-IA-1dp"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="1E7-sw-HrY"/>
                     </view>
                     <connections>
