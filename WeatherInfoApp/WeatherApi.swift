@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreLocation
-
+import Alamofire
 typealias JSONPayload = [String : Any]
 
 // this is what we provide as a result to the caller who requests weather from the WeatherController
@@ -35,14 +35,21 @@ class WeatherApi {
     // FIXME: you must replace this with your OpenWeather API key (APPID), see https://openweathermap.org/appid
     fileprivate let APIKey = "c6e381d8c7ff98f0fee43775817cf6ad"
     fileprivate let baseURLPath = "http://api.openweathermap.org/data/2.5/weather?"
-
+    fileprivate let baseURLPathForForecaste = "http://api.openweathermap.org/data/2.5/forecast?"
+    typealias DownloadComplete = ([Forecast]) -> ()
     // singleton should not be initialized elsewhere
     fileprivate init() {}
 
     typealias WeatherCompletion = (WeatherResult) -> Void
     func weatherURL(for coordinate: CLLocationCoordinate2D) -> URL {
         let unit = Utils.getDefaults(key: GlobalConstants.unit) ?? "matric"
-        let URLPath = baseURLPath + "lat=\(coordinate.latitude)" + "&lon=\(coordinate.longitude)" + "&units=imperial" + "&APPID=\(APIKey)"
+        let URLPath = baseURLPath + "lat=\(coordinate.latitude)" + "&lon=\(coordinate.longitude)" + "&units=\(unit)" + "&APPID=\(APIKey)"
+        return URL(string: URLPath)!
+    }
+
+    func forecasteURL(for coordinate: CLLocationCoordinate2D) -> URL {
+        let unit = Utils.getDefaults(key: GlobalConstants.unit) ?? "matric"
+        let URLPath = baseURLPathForForecaste + "lat=\(coordinate.latitude)" + "&lon=\(coordinate.longitude)" + "&units=\(unit)" + "&APPID=\(APIKey)"
         return URL(string: URLPath)!
     }
 
@@ -74,6 +81,25 @@ class WeatherApi {
                 completion(.failure(.serializationFailed))
             }
             }.resume()
+    }
+
+    func downloadForecastData(coordinate: CLLocationCoordinate2D, completed: @escaping DownloadComplete) {
+        Alamofire.request(forecasteURL(for: coordinate)).responseJSON { response in
+            let result = response.result
+            var forecasts = [Forecast]()
+            if let dict = result.value as? Dictionary<String,AnyObject>{
+
+                if let list = dict["list"] as? [Dictionary<String,AnyObject>]{
+                    for obj in list{
+                        let forecast = Forecast(weatherDict: obj)
+                        forecasts.append(forecast)
+                        print(obj)
+                    }
+                    forecasts.remove(at: 0)
+                }
+            }
+            completed(forecasts)
+        }
     }
 
     func parse(_ payload: JSONPayload) -> WeatherTuple? {

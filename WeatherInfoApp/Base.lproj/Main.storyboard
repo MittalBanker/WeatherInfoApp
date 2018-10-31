@@ -9,6 +9,12 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Helvetica.ttc">
+            <string>Helvetica</string>
+            <string>Helvetica-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -203,6 +209,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Vgx-m4-voB">
+                                <rect key="frame" x="65" y="30" width="245" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="245" id="OEt-gB-FDo"/>
+                                    <constraint firstAttribute="height" constant="40" id="RLo-Vo-Poe"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Today"/>
+                                    <segment title="Five Day Forecast"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentChanged:" destination="7Hc-cz-jl3" eventType="valueChanged" id="2Bc-71-aaM"/>
+                                </connections>
+                            </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="itq-pB-Ch8">
                                 <rect key="frame" x="0.0" y="90" width="375" height="577"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -227,24 +247,110 @@
                                     <outlet property="delegate" destination="7Hc-cz-jl3" id="hQ7-XZ-USe"/>
                                 </connections>
                             </collectionView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Vgx-m4-voB">
-                                <rect key="frame" x="65" y="30" width="245" height="41"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="245" id="OEt-gB-FDo"/>
-                                    <constraint firstAttribute="height" constant="40" id="RLo-Vo-Poe"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Today"/>
-                                    <segment title="Five Day Forecast"/>
-                                </segments>
-                            </segmentedControl>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="77" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vlV-My-opZ">
+                                <rect key="frame" x="0.0" y="90" width="375" height="577"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="weatherCell" rowHeight="77" id="LMO-Xq-120" customClass="WeatherCell" customModule="weatherApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="77"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LMO-Xq-120" id="csd-9E-x5d">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="76.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u6L-78-Bib">
+                                                    <rect key="frame" x="10" y="5" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="NxA-06-LgI"/>
+                                                        <constraint firstAttribute="width" constant="50" id="SSF-Ax-n37"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udx-Sa-3SI">
+                                                    <rect key="frame" x="70" y="10" width="285" height="56.5"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qNx-jt-s3Q">
+                                                            <rect key="frame" x="0.0" y="0.0" width="240" height="56.5"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wednesday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4oM-rM-32x">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="20"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="oKM-NS-4gU"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="18"/>
+                                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cloudy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Si0-OW-zjo">
+                                                                    <rect key="frame" x="0.0" y="20" width="240" height="36.5"/>
+                                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
+                                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hIb-Dm-Oy9">
+                                                            <rect key="frame" x="240" y="0.0" width="45" height="56.5"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36°" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIp-ng-DR9">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="45" height="15"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="45" id="Tea-kc-xZo"/>
+                                                                        <constraint firstAttribute="height" constant="15" id="lyD-dk-rOY"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="18"/>
+                                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30°" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAV-qZ-s8i">
+                                                                    <rect key="frame" x="0.0" y="15" width="45" height="41.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="45" id="MMF-g0-aTA"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
+                                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="u6L-78-Bib" firstAttribute="top" secondItem="csd-9E-x5d" secondAttribute="top" constant="5" id="JCI-Nz-Mg1"/>
+                                                <constraint firstAttribute="trailing" secondItem="udx-Sa-3SI" secondAttribute="trailing" constant="20" id="Lpw-Pf-BCc"/>
+                                                <constraint firstAttribute="bottom" secondItem="udx-Sa-3SI" secondAttribute="bottom" constant="10" id="Nmx-HL-a8v"/>
+                                                <constraint firstItem="u6L-78-Bib" firstAttribute="leading" secondItem="csd-9E-x5d" secondAttribute="leading" constant="10" id="Smk-Y4-bu1"/>
+                                                <constraint firstItem="udx-Sa-3SI" firstAttribute="top" secondItem="csd-9E-x5d" secondAttribute="top" constant="10" id="cQn-fp-Dfp"/>
+                                                <constraint firstItem="udx-Sa-3SI" firstAttribute="leading" secondItem="u6L-78-Bib" secondAttribute="trailing" constant="10" id="yqJ-qc-EZ1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.79825288719999998" alpha="1" colorSpace="calibratedWhite"/>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="dayLabel" destination="4oM-rM-32x" id="Hw5-IA-cWw"/>
+                                            <outlet property="highTemp" destination="fIp-ng-DR9" id="Ce0-Wc-PB0"/>
+                                            <outlet property="weatherIcon" destination="u6L-78-Bib" id="egq-jt-IpD"/>
+                                            <outlet property="weatherType" destination="Si0-OW-zjo" id="UTG-EV-sct"/>
+                                            <outlet property="windLbl" destination="tAV-qZ-s8i" id="jah-5X-49S"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="7Hc-cz-jl3" id="Jjd-rb-lwI"/>
+                                    <outlet property="delegate" destination="7Hc-cz-jl3" id="dh4-CG-R6A"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="vlV-My-opZ" firstAttribute="leading" secondItem="1E7-sw-HrY" secondAttribute="leading" id="10Q-yM-kQU"/>
+                            <constraint firstItem="vlV-My-opZ" firstAttribute="top" secondItem="Vgx-m4-voB" secondAttribute="bottom" constant="20" id="3OJ-C7-EiO"/>
                             <constraint firstItem="1E7-sw-HrY" firstAttribute="bottom" secondItem="itq-pB-Ch8" secondAttribute="bottom" id="8gY-Hb-8eb"/>
                             <constraint firstItem="itq-pB-Ch8" firstAttribute="leading" secondItem="1E7-sw-HrY" secondAttribute="leading" id="FNZ-Bh-2vf"/>
                             <constraint firstItem="Vgx-m4-voB" firstAttribute="top" secondItem="1E7-sw-HrY" secondAttribute="top" constant="10" id="Pa8-td-WxI"/>
+                            <constraint firstItem="1E7-sw-HrY" firstAttribute="bottom" secondItem="vlV-My-opZ" secondAttribute="bottom" id="fdr-M2-w2G"/>
                             <constraint firstItem="Vgx-m4-voB" firstAttribute="centerX" secondItem="1E7-sw-HrY" secondAttribute="centerX" id="nPz-q1-6LM"/>
+                            <constraint firstAttribute="trailing" secondItem="vlV-My-opZ" secondAttribute="trailing" id="psF-oY-dgW"/>
                             <constraint firstItem="itq-pB-Ch8" firstAttribute="top" secondItem="Vgx-m4-voB" secondAttribute="bottom" constant="20" id="qJo-Hy-dfq"/>
                             <constraint firstItem="itq-pB-Ch8" firstAttribute="trailing" secondItem="1E7-sw-HrY" secondAttribute="trailing" id="rNC-IA-1dp"/>
                         </constraints>
@@ -252,6 +358,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="itq-pB-Ch8" id="8Gu-Ge-cKk"/>
+                        <outlet property="tblView" destination="vlV-My-opZ" id="SqA-mA-NjJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HYg-qc-cHU" userLabel="First Responder" sceneMemberID="firstResponder"/>

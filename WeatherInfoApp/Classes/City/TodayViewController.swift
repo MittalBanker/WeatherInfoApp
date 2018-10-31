@@ -13,6 +13,9 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout{
     var placemark: CLPlacemark?
     var weatherData: WeatherTuple?
     @IBOutlet weak var collectionView: UICollectionView?
+    @IBOutlet weak var segControl: UISegmentedControl?
+    @IBOutlet weak var tblView: UITableView?
+    var forecaste = [Forecast]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Weather Information"
@@ -29,18 +32,11 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout{
             case .failure(let err): break
 
             }
+            self.callForecast(coordinate: cOrd)
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
             }
         }
-        let rightButtonItem = UIBarButtonItem.init(
-            title: "Five Day Forecast",
-            style: .done,
-            target: self,
-            action: #selector(rightButtonAction(sender:)))
-
-        self.navigationItem.rightBarButtonItem = rightButtonItem
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,8 +44,24 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout{
         // Dispose of any resources that can be recreated.
     }
 
-    @objc func rightButtonAction(sender: UIBarButtonItem) {
-        
+    @IBAction func segmentChanged(_ sender: Any) {
+        guard ((sender as? UISegmentedControl)?.selectedSegmentIndex) != nil else {
+            return
+        }
+        if ((sender as? UISegmentedControl)?.selectedSegmentIndex) == 0 {
+            collectionView?.isHidden = false
+            tblView?.isHidden = true
+        } else {
+            tblView?.isHidden = false
+            collectionView?.isHidden = true
+        }
+    }
+
+    func callForecast(coordinate: CLLocationCoordinate2D) {
+        WeatherApi.shared.downloadForecastData(coordinate: coordinate) { (result) in
+            self.forecaste = result
+            self.tblView?.reloadData()
+        }
     }
 }
 
@@ -71,7 +83,7 @@ extension TodayViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodayCell",
                                                       for: indexPath) as? TodayCell
         // Configure the cell
-        if let weather = weatherData {
+        if weatherData != nil {
             cell?.configure(with: weatherData!)
         }
         return cell ?? UICollectionViewCell()
@@ -81,4 +93,24 @@ extension TodayViewController: UICollectionViewDelegate, UICollectionViewDataSou
         return CGSize(width: self.view.frame.size.width, height: 150)
     }
 
+}
+
+extension TodayViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return forecaste.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath) as? WeatherCell {
+            let forecast = forecaste[indexPath.row]
+            cell.confifureCell(forecast: forecast)
+            return cell
+        }
+        return WeatherCell()
+    }
 }
